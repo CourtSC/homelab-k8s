@@ -11,25 +11,9 @@ spec:
     targetRevision: 2025.6.3
     helm:
       values: |
-        authentik:
-          secret_key: ""
-          postgresql:
-            password: ""
-        envValueFrom:
-          AUTHENTIK_SECRET_KEY:
-            secretKeyRef:
-              name: authentik-secrets
-              key: secret-key
-          AUTHENTIK_POSTGRESQL__PASSWORD:
-            secretKeyRef:
-              name: authentik-secrets
-              key: postgresql-password
-
         postgresql:
           enabled: true
           auth:
-            password: ""
-            postgresPassword: ""
             existingSecret: authentik-secrets
             secretKeys:
               adminPasswordKey: postgresql-postgres-password
@@ -45,9 +29,31 @@ spec:
 
         server:
           replicas: 1
+          env:
+            - name: AUTHENTIK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-secrets
+                  key: secret-key
+            - name: AUTHENTIK_POSTGRESQL__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-secrets
+                  key: postgresql-password
 
         worker:
           replicas: 1
+          env:
+            - name: AUTHENTIK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-secrets
+                  key: secret-key
+            - name: AUTHENTIK_POSTGRESQL__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-secrets
+                  key: postgresql-password
   destination:
     server: https://kubernetes.default.svc
     namespace: authentik
