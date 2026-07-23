@@ -1,4 +1,14 @@
 apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: forwarded-https
+  namespace: authentik
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"
+---
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: authentik-server-websecure
@@ -29,3 +39,5 @@ spec:
       services:
         - name: authentik-server
           port: 80
+      middlewares:
+        - name: forwarded-https
