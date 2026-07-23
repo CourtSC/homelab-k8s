@@ -19,6 +19,8 @@ spec:
           args:
             - tunnel
             - --no-autoupdate
+            - --loglevel
+            - debug
             - run
           env:
             - name: TUNNEL_TOKEN
