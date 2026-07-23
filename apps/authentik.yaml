@@ -50,6 +50,13 @@ spec:
                 secretKeyRef:
                   name: authentik-secrets
                   key: postgresql-password
+            - name: AUTHENTIK_BOOTSTRAP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-secrets
+                  key: bootstrap-password
+            - name: AUTHENTIK_BOOTSTRAP_EMAIL
+              value: scott.c.court@gmail.com
 
         worker:
           replicas: 1
@@ -64,6 +71,13 @@ spec:
                 secretKeyRef:
                   name: authentik-secrets
                   key: postgresql-password
+            - name: AUTHENTIK_BOOTSTRAP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-secrets
+                  key: bootstrap-password
+            - name: AUTHENTIK_BOOTSTRAP_EMAIL
+              value: scott.c.court@gmail.com
   destination:
     server: https://kubernetes.default.svc
     namespace: authentik
