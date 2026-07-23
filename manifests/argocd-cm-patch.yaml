@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: argocd
+data:
+  url: https://argo.scottccourt.com
+  oidc.config: |
+    name: Authentik
+    issuer: https://auth.scottccourt.com/application/o/argocd/
+    clientID: $argocd-oidc-secrets:client-id
+    clientSecret: $argocd-oidc-secrets:client-secret
+    requestedScopes:
+      - openid
+      - profile
+      - email
+      - groups
