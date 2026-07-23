@@ -10,8 +10,9 @@ spec:
     targetRevision: v1.7.2
     path: chart
     helm:
-      valueFiles:
-        - values.yaml
+      values: |
+        defaultSettings:
+          defaultDataPath: /var/lib/longhorn
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
