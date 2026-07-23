@@ -6,6 +6,7 @@ metadata:
 spec:
   entryPoints:
     - websecure
+    - web
   routes:
     - match: Host(`auth.scottccourt.com`)
       kind: Rule
