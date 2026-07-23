@@ -11,6 +11,10 @@ spec:
     targetRevision: 2025.6.3
     helm:
       values: |
+        global:
+          security:
+            allowInsecureImages: true
+
         postgresql:
           enabled: true
           image:
