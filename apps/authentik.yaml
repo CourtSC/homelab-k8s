@@ -13,6 +13,9 @@ spec:
       values: |
         postgresql:
           enabled: true
+          image:
+            registry: docker.io
+            repository: bitnamilegacy/postgresql
           auth:
             existingSecret: authentik-secrets
             secretKeys:
@@ -26,6 +29,9 @@ spec:
 
         redis:
           enabled: true
+          image:
+            registry: docker.io
+            repository: bitnamilegacy/redis
 
         server:
           replicas: 1
