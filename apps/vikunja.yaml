@@ -1,0 +1,70 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vikunja
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: oci://ghcr.io/go-vikunja/helm-chart
+    chart: vikunja
+    targetRevision: 0.4.1
+    helm:
+      values: |
+        vikunja:
+          persistence:
+            data:
+              enabled: true
+              accessMode: ReadWriteOnce
+              size: 5Gi
+              storageClass: longhorn
+            database:
+              enabled: true
+              accessMode: ReadWriteOnce
+              size: 2Gi
+              storageClass: longhorn
+          ingress:
+            main:
+              enabled: false
+          configMaps:
+            config:
+              enabled: true
+              data:
+                config.yml: |
+                  service:
+                    publicurl: "https://vikunja.scottccourt.com"
+                  auth:
+                    local:
+                      enabled: true
+                    openid:
+                      enabled: true
+                      providers:
+                        authentik:
+                          name: Authentik
+                          authurl: https://auth.scottccourt.com/application/o/vikunja/
+          env:
+            VIKUNJA_DATABASE_TYPE: "sqlite"
+            VIKUNJA_SERVICE_SECRET:
+              valueFrom:
+                secretKeyRef:
+                  name: vikunja-secrets
+                  key: service-secret
+            VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHENTIK_CLIENTID:
+              valueFrom:
+                secretKeyRef:
+                  name: vikunja-secrets
+                  key: oidc-client-id
+            VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHENTIK_CLIENTSECRET:
+              valueFrom:
+                secretKeyRef:
+                  name: vikunja-secrets
+                  key: oidc-client-secret
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vikunja
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
