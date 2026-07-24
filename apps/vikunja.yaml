@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: oci://ghcr.io/go-vikunja/helm-chart
-    chart: vikunja
-    targetRevision: v2.0.2
+    repoURL: https://github.com/CourtSC/homelab-k8s.git
+    targetRevision: main
+    path: charts/vikunja
     helm:
       values: |
         vikunja:
