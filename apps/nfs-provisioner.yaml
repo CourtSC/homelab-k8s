@@ -13,7 +13,7 @@ spec:
       values: |
         nfs:
           server: 192.168.0.102
-          path: /volume1/k8s-media
+          path: /volume1/jellyfin-media
         storageClass:
           name: nfs-media
           defaultClass: false
