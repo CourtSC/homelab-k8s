@@ -16,21 +16,7 @@ spec:
             allowInsecureImages: true
 
         postgresql:
-          enabled: true
-          image:
-            registry: docker.io
-            repository: bitnamilegacy/postgresql
-            tag: 17.6.0-debian-12-r4
-          auth:
-            existingSecret: authentik-secrets
-            secretKeys:
-              adminPasswordKey: postgresql-postgres-password
-              userPasswordKey: postgresql-password
-          primary:
-            persistence:
-              enabled: true
-              storageClass: longhorn
-              size: 10Gi
+          enabled: false
 
         server:
           replicas: 1
@@ -40,6 +26,12 @@ spec:
                 secretKeyRef:
                   name: authentik-secrets
                   key: secret-key
+            - name: AUTHENTIK_POSTGRESQL__HOST
+              value: authentik-postgres
+            - name: AUTHENTIK_POSTGRESQL__NAME
+              value: authentik
+            - name: AUTHENTIK_POSTGRESQL__USER
+              value: authentik
             - name: AUTHENTIK_POSTGRESQL__PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -61,6 +53,12 @@ spec:
                 secretKeyRef:
                   name: authentik-secrets
                   key: secret-key
+            - name: AUTHENTIK_POSTGRESQL__HOST
+              value: authentik-postgres
+            - name: AUTHENTIK_POSTGRESQL__NAME
+              value: authentik
+            - name: AUTHENTIK_POSTGRESQL__USER
+              value: authentik
             - name: AUTHENTIK_POSTGRESQL__PASSWORD
               valueFrom:
                 secretKeyRef:
