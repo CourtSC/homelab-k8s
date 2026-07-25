@@ -9,7 +9,7 @@ data:
   url: https://argo.scottccourt.com
   oidc.config: |
     name: Authentik
-    issuer: https://auth.scottccourt.com/application/o/argocd/
+    issuer: https://auth.scottccourt.com/application/o/argo-cd/
     clientID: $argocd-oidc-secrets:client-id
     clientSecret: $argocd-oidc-secrets:client-secret
     requestedScopes:
