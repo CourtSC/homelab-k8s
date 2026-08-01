@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: amp-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: 192.168.0.155
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: forwarded-https
+  namespace: default
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: amp-websecure
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`amp.scottccourt.com`)
+      kind: Rule
+      services:
+        - name: amp-external
+          port: 8080
+  tls:
+    secretName: amp-tls
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: amp-web
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`amp.scottccourt.com`)
+      kind: Rule
+      services:
+        - name: amp-external
+          port: 8080
+      middlewares:
+        - name: forwarded-https
