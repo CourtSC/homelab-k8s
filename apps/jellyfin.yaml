@@ -14,6 +14,8 @@ spec:
         env:
           TZ: America/New_York
           DOTNET_USE_POLLING_FILE_WATCHER: "1"
+          NVIDIA_VISIBLE_DEVICES: "all"
+          NVIDIA_DRIVER_CAPABILITIES: "all"
         persistence:
           config:
             enabled: true
@@ -30,6 +32,12 @@ spec:
           enabled: false
         service:
           type: ClusterIP
+        runtimeClassName: nvidia
+        nodeSelector:
+          nvidia.com/gpu: "true"
+        resources:
+          limits:
+            nvidia.com/gpu: 1
   destination:
     server: https://kubernetes.default.svc
     namespace: jellyfin
