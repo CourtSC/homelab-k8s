@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
         - name: calibre-web
-          image: lscr.io/linuxserver/calibre-web:latest
+          image: crocodilestick/calibre-web-automated:latest
           env:
             - name: PUID
               value: "1000"
@@ -47,13 +47,15 @@ spec:
               value: "1000"
             - name: TZ
               value: "America/New_York"
+            - name: NETWORK_SHARE_MODE
+              value: "true"
           ports:
             - containerPort: 8083
           volumeMounts:
             - name: config
               mountPath: /config
             - name: books
-              mountPath: /books
+              mountPath: /calibre-library
       volumes:
         - name: config
           persistentVolumeClaim:
