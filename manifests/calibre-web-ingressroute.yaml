@@ -1,0 +1,43 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: forwarded-https
+  namespace: calibre-web
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: calibre-web-websecure
+  namespace: calibre-web
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`calibre.scottccourt.com`)
+      kind: Rule
+      services:
+        - name: calibre-web
+          port: 8083
+  tls:
+    secretName: calibre-web-tls
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: calibre-web-web
+  namespace: calibre-web
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`calibre.scottccourt.com`)
+      kind: Rule
+      services:
+        - name: calibre-web
+          port: 8083
+      middlewares:
+        - name: forwarded-https
