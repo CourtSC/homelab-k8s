@@ -56,6 +56,9 @@ spec:
               mountPath: /config
             - name: books
               mountPath: /calibre-library
+            - name: books
+              mountPath: /cwa-book-ingest
+              subPath: ingest
       volumes:
         - name: config
           persistentVolumeClaim:
