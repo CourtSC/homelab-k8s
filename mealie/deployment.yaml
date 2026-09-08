@@ -39,6 +39,20 @@ spec:
               value: "false"
             - name: BASE_URL
               value: "https://mealie.scottccourt.com"
+            - name: OIDC_AUTH_ENABLED
+              value: "True"
+            - name: OIDC_SIGNUP_ENABLED
+              value: "True"
+            - name: OIDC_AUTO_REDIRECT
+              value: "False"
+            - name: OIDC_PROVIDER_NAME
+              value: "Authentik"
+            - name: OIDC_CONFIGURATION_URL
+              value: "https://auth.scottccourt.com/application/o/mealie/.well-known/openid-configuration"
+            - name: OIDC_CLIENT_ID
+              value: "ZDNWxfq7rqmeOQkWTcazWHgUt6xuZlWQHIx269Qk"
+            - name: OIDC_CLIENT_SECRET
+              value: "p0Ve7CmKujkpm7E6nS2d0V0fP4yeaqzJ7X7lZX4XXX6wwJkfQT11Dj4szPBlKgvyeS3XcEBdyYrObMbz6qCaCY2W1IWdrye2cIETxx4dFYRauxxaOxrxPoCi3fCAwM4f"
           ports:
             - containerPort: 9000
           volumeMounts:
