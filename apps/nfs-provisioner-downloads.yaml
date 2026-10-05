@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nfs-provisioner-downloads
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+    chart: nfs-subdir-external-provisioner
+    targetRevision: 4.0.18
+    helm:
+      values: |
+        nfs:
+          server: 192.168.0.102
+          path: /volume1/downloads
+        storageClass:
+          name: nfs-downloads
+          defaultClass: false
+          reclaimPolicy: Retain
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nfs-provisioner-downloads
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
